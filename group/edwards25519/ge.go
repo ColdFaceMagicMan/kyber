@@ -287,7 +287,7 @@ func (r *cachedGroupElement) Neg(t *cachedGroupElement) {
 // each multiplier is either zero or an odd number between -15 and 15.
 // Assumes the target array r has been preinitialized with zeros
 // in case the input slice a is less than 32 bytes.
-func slide(r *[256]int8, a *[32]byte) {
+func slide(r *[256]int8, a *ScalarV) {
 
 	// Explode the exponent a into a little-endian array, one bit per byte
 	for i := range a {
@@ -354,12 +354,14 @@ func selectPreComputed(t *preComputedGroupElement, pos int32, b int32) {
 }
 
 // geScalarMultBase computes h = a*B, where
-//   a = a[0]+256*a[1]+...+256^31 a[31]
-//   B is the Ed25519 base point (x,4/5) with x positive.
+//
+//	a = a[0]+256*a[1]+...+256^31 a[31]
+//	B is the Ed25519 base point (x,4/5) with x positive.
 //
 // Preconditions:
-//   a[31] <= 127
-func geScalarMultBase(h *extendedGroupElement, a *[32]byte) {
+//
+//	a[31] <= 127
+func geScalarMultBase(h *extendedGroupElement, a *ScalarV) {
 	var e [64]int8
 
 	for i, v := range a {
@@ -422,12 +424,14 @@ func selectCached(c *cachedGroupElement, Ai *[8]cachedGroupElement, b int32) {
 }
 
 // geScalarMult computes h = a*B, where
-//   a = a[0]+256*a[1]+...+256^31 a[31]
-//   B is the Ed25519 base point (x,4/5) with x positive.
+//
+//	a = a[0]+256*a[1]+...+256^31 a[31]
+//	B is the Ed25519 base point (x,4/5) with x positive.
 //
 // Preconditions:
-//   a[31] <= 127
-func geScalarMult(h *extendedGroupElement, a *[32]byte,
+//
+//	a[31] <= 127
+func geScalarMult(h *extendedGroupElement, a *ScalarV,
 	A *extendedGroupElement) {
 
 	var t completedGroupElement
