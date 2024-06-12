@@ -41,6 +41,7 @@ func (s *scalar) Equal(s2 kyber.Scalar) bool {
 // Set equal to another Scalar a
 func (s *scalar) Set(a kyber.Scalar) kyber.Scalar {
 	s.v = a.(*scalar).v
+
 	return s
 }
 
